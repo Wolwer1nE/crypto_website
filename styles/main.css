@@ -1,0 +1,20 @@
+.main {
+    display: flex;
+}
+
+.nav {
+    flex-grow: 0.2;
+    font-size: 16pt;
+}
+
+.graphicContainer {
+    flex-grow: 0.8;
+}
+
+nav ul {
+    alignment: center;
+    height: 880px;
+    overflow:hidden;
+    overflow-y:scroll;
+}
+

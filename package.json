@@ -2,17 +2,21 @@
   "name": "crypto_website",
   "version": "1.0.0",
   "description": "Crypto currency website for crossplatform",
-  "main": "index.js",
   "scripts": {
     "start": "parcel index.html"
   },
   "author": "Insider",
   "license": "ISC",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
-    "parcel": "^2.8.0",
     "@babel/core": "^7.19.1",
     "@parcel/babel-preset-env": "^2.7.0",
     "babel-jest": "^29.0.3",
-    "jest": "^29.0.3"
+    "jest": "^29.0.3",
+    "parcel": "^2.8.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "gh-pages": "^4.0.0"
   }
 }
