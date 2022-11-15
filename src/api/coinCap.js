@@ -1,13 +1,22 @@
 class CoinCap {
-//     http:/api.coincap.io/v2/assets
-//     https://api.spacexdata.com/v5/launches
+
     constructor(baseUrl = "https:/api.coincap.io/v2/assets") {
-        this.baseUrl = baseUrl
+        this.baseUrl = baseUrl;
     }
 
     getCryptoList() {
         return fetch(`${this.baseUrl}`)
-            .then(response => response.json())
+            .then(response => response.json());
+    }
+
+    getCryptoInfo(id) {
+        return fetch(`${this.baseUrl}/${id}`)
+            .then(response => response.json());
+    }
+
+    getCryptoHistory(id, interval="d1") {
+        return fetch(`${this.baseUrl}/${id}/history?interval=${interval}`)
+            .then(response => response.json());
     }
 
 }
