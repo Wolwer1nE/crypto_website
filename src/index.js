@@ -61,7 +61,7 @@ function renderInfo(cryptoCurrElInfo) {
         dayChangeText.style.backgroundColor = "green";
         dayChangeText.innerHTML = `Day change: ${parseFloat(cryptoCurrElInfo.changePercent24Hr).toFixed(3)}%`;
     }
-
+    createIntervalButtons(cryptoCurrElInfo.id, cryptoCurrElInfo.name);
 }
 
 // Add history
@@ -150,4 +150,42 @@ function createGraphic(allHistoryData, cryptoName) {
         }]
 
     });
+}
+
+function createIntervalButtons(id, name) {
+    const intervalD1Button = document.getElementById("intervalD1Button");
+    intervalD1Button.style.visibility = "visible"
+    intervalD1Button.onclick = function () {
+        renderCryptoHistory(id, "d1", name)
+    }
+
+    const intervalH12Button = document.getElementById("intervalH12Button");
+    intervalH12Button.style.visibility = "visible"
+    intervalH12Button.onclick = function () {
+        renderCryptoHistory(id, "h12", name)
+    }
+
+    const intervalH6Button = document.getElementById("intervalH6Button");
+    intervalH6Button.style.visibility = "visible"
+    intervalH6Button.onclick = function () {
+        renderCryptoHistory(id, "h6", name)
+    }
+
+    const intervalH2Button = document.getElementById("intervalH2Button");
+    intervalH2Button.style.visibility = "visible"
+    intervalH2Button.onclick = function () {
+        renderCryptoHistory(id, "h2", name)
+    }
+
+    const intervalH1Button = document.getElementById("intervalH1Button");
+    intervalH1Button.style.visibility = "visible"
+    intervalH1Button.onclick = function () {
+        renderCryptoHistory(id, "h1", name)
+    }
+
+    const intervalM30Button = document.getElementById("intervalM30Button");
+    intervalM30Button.style.visibility = "visible"
+    intervalM30Button.onclick = function () {
+        renderCryptoHistory(id, "m30", name)
+    }
 }
