@@ -10,6 +10,7 @@ function setupPage() {
     });
 }
 
+// Add list
 function renderCryptoData(cryptoCurrData, container) {
     const list = document.createElement("ul");
     const items = [];
@@ -17,12 +18,12 @@ function renderCryptoData(cryptoCurrData, container) {
         const listItem = document.createElement("li");
         const innerListItem = document.createElement("a");
         innerListItem.setAttribute("class", "link");
-        innerListItem.setAttribute("href", `${cryptoData.explorer}`);
+        //innerListItem.setAttribute("href", `${cryptoData.explorer}`);
         innerListItem.setAttribute("target", "_blank");
         innerListItem.innerHTML = `${cryptoData.name} (${cryptoData.symbol})`;
         innerListItem.onclick = function () {
             renderCryptoInfo(cryptoData.id);
-            renderCryptoHistory(cryptoData.id, "d1")
+            renderCryptoHistory(cryptoData.id, "d1", cryptoData.name)
         }
         listItem.replaceChildren(innerListItem);
         items.push(listItem);
@@ -31,16 +32,10 @@ function renderCryptoData(cryptoCurrData, container) {
     container.replaceChildren(list);
 }
 
+// Add info
 function renderCryptoInfo(id) {
     coinCap.getCryptoInfo(id).then(cryptoCurrElInfo => {
         renderInfo(cryptoCurrElInfo.data);
-    })
-}
-
-function renderCryptoHistory(id, interval) {
-    coinCap.getCryptoHistory(id, interval).then(cryptoCurrElHistory => {
-        renderHistory(cryptoCurrElHistory.data);
-        console.log(cryptoCurrElHistory.data)
     })
 }
 
@@ -53,24 +48,106 @@ function renderInfo(cryptoCurrElInfo) {
     const priceText = document.getElementById("price");
     const dayChangeText = document.getElementById("dayChange");
 
-    nameText.innerHTML = `Crypto name: ${cryptoCurrElInfo.name} (${cryptoCurrElInfo.symbol})`;
+    nameText.innerHTML = `Name: ${cryptoCurrElInfo.name} (${cryptoCurrElInfo.symbol})`;
     idText.innerHTML = `Id: ${cryptoCurrElInfo.id}`;
     symbolText.innerHTML = `Symbol: ${cryptoCurrElInfo.symbol}`;
-    marketCapText.innerHTML = `Market cap: ${cryptoCurrElInfo.marketCapUsd}`;
-    supplyText.innerHTML = `Supply: ${cryptoCurrElInfo.supply}`;
-    priceText.innerHTML = `Price: ${cryptoCurrElInfo.priceUsd}`;
-    dayChangeText.innerHTML = `Day change: ${cryptoCurrElInfo.changePercent24Hr}`;
+    marketCapText.innerHTML = `Market cap: ${parseFloat(cryptoCurrElInfo.marketCapUsd).toFixed(3)}`;
+    supplyText.innerHTML = `Supply: ${parseFloat(cryptoCurrElInfo.supply).toFixed(3)}`;
+    priceText.innerHTML = `Price: ${parseFloat(cryptoCurrElInfo.priceUsd).toFixed(3)}`;
+    if (cryptoCurrElInfo.changePercent24Hr[0] === "-") {
+        dayChangeText.style.backgroundColor = "red";
+        dayChangeText.innerHTML = `Day change: ${parseFloat(cryptoCurrElInfo.changePercent24Hr).toFixed(3)}%`;
+    } else {
+        dayChangeText.style.backgroundColor = "green";
+        dayChangeText.innerHTML = `Day change: ${parseFloat(cryptoCurrElInfo.changePercent24Hr).toFixed(3)}%`;
+    }
+
 }
 
-function renderHistory(cryptoCurrElHistory) {
-    const container = document.getElementById("graphicContainer");
-    const list = document.createElement("ul");
-    const items = [];
-    cryptoCurrElHistory.forEach(cryptoData => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `${cryptoData.priceUsd}`;
-        items.push(listItem);
+// Add history
+function renderCryptoHistory(id, interval, cryptoName) {
+    coinCap.getCryptoHistory(id, interval).then(cryptoCurrElHistory => {
+        renderHistory(cryptoCurrElHistory.data, cryptoName);
+        console.log(cryptoCurrElHistory.data)
     })
-    list.append(...items);
-    container.replaceChildren(list);
+}
+
+function renderHistory(cryptoCurrElHistory, cryptoName) {
+    const allHistoryData = [];
+    let i = 0;
+
+    cryptoCurrElHistory.forEach(historyData => {
+        const dayHistoryData = [i, parseFloat(historyData.priceUsd)];
+        allHistoryData.push(dayHistoryData);
+        i++;
+    })
+
+    createGraphic(allHistoryData, cryptoName)
+}
+
+function createGraphic(allHistoryData, cryptoName) {
+    Highcharts.chart("graphicContainer", {
+        chart: {
+            type: 'area',
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
+            scrollablePlotArea: {
+                minWidth: 600
+            }
+        },
+
+        title: {
+            text: cryptoName
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        xAxis: {
+            labels: {
+                format: null
+            },
+            minRange: 5,
+            title: {
+                text: "Days"
+            }
+        },
+
+        yAxis: {
+            startOnTick: true,
+            endOnTick: false,
+            maxPadding: 0.35,
+            title: {
+                text: "Dollars"
+            },
+            labels: {
+                format: "{value}"
+            }
+        },
+
+        tooltip: {
+            headerFormat: "{point.y:.3f} usd<br>",
+            pointFormat: "{point.x} day",
+            shared: true
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        series: [{
+            data: allHistoryData,
+            lineColor: Highcharts.getOptions().colors[1],
+            color: Highcharts.getOptions().colors[2],
+            fillOpacity: 0.5,
+            name: 'Elevation',
+            marker: {
+                enabled: false
+            },
+            threshold: null
+        }]
+
+    });
 }

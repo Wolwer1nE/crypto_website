@@ -6,23 +6,28 @@
 
     <link rel="stylesheet" href="styles/main.css">
     <script type="module" src="src/index.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/annotations.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 <body>
     <main class="main">
         <nav class="nav" id="cryptoCurrContainer">
         </nav>
 
-        <aside class="graphicContainer" id="graphicContainer">
-        </aside>
+        <div class="graphicContainer" id="graphicContainer">
+        </div>
 
         <aside class="infoContainer" id="infoContainer">
-            <h1 id="name">Name</h1>
-            <h3 id="id">Id: </h3>
-            <h3 id="symbol">Symbol: </h3>
-            <h3 id="marketCap">Market cap: </h3>
-            <h3 id="supply">Supply: </h3>
-            <h3 id="price">Price: </h3>
-            <h3 id="dayChange">Day change: </h3>
+            <h1 id="name"></h1>
+            <h3 id="id"></h3>
+            <h3 id="symbol"></h3>
+            <h3 id="marketCap"></h3>
+            <h3 id="supply"></h3>
+            <h3 id="price"></h3>
+            <h3 id="dayChange"></h3>
         </aside>
     </main>
 </body>
