@@ -48,7 +48,7 @@ function renderInfo(cryptoCurrElInfo) {
     const priceText = document.getElementById("price");
     const dayChangeText = document.getElementById("dayChange");
 
-    nameText.innerHTML = `Name: ${cryptoCurrElInfo.name} (${cryptoCurrElInfo.symbol})`;
+    nameText.innerHTML = `${cryptoCurrElInfo.name} (${cryptoCurrElInfo.symbol})`;
     idText.innerHTML = `Id: ${cryptoCurrElInfo.id}`;
     symbolText.innerHTML = `Symbol: ${cryptoCurrElInfo.symbol}`;
     marketCapText.innerHTML = `Market cap: ${parseFloat(cryptoCurrElInfo.marketCapUsd).toFixed(3)}`;
@@ -74,12 +74,10 @@ function renderCryptoHistory(id, interval, cryptoName) {
 
 function renderHistory(cryptoCurrElHistory, cryptoName) {
     const allHistoryData = [];
-    let i = 0;
 
     cryptoCurrElHistory.forEach(historyData => {
-        const dayHistoryData = [i, parseFloat(historyData.priceUsd)];
+        const dayHistoryData = [historyData.time, parseFloat(historyData.priceUsd)];
         allHistoryData.push(dayHistoryData);
-        i++;
     })
 
     createGraphic(allHistoryData, cryptoName)
@@ -106,8 +104,11 @@ function createGraphic(allHistoryData, cryptoName) {
         },
 
         xAxis: {
-            labels: {
-                format: null
+            type: 'datetime',
+            "labels": {
+                "formatter": function() {
+                    return Highcharts.dateFormat('%b%e', this.value)
+                }
             },
             minRange: 5,
             title: {
@@ -128,8 +129,9 @@ function createGraphic(allHistoryData, cryptoName) {
         },
 
         tooltip: {
-            headerFormat: "{point.y:.3f} usd<br>",
-            pointFormat: "{point.x} day",
+            formatter: function () {
+                return `${parseFloat(this.y).toFixed(2)} usd <br> ${Highcharts.dateFormat('%b %e', this.x)}`
+            },
             shared: true
         },
 

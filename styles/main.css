@@ -9,6 +9,7 @@
 
 .graphicContainer {
     flex-grow: 0.6;
+    width: 600px;
 }
 .infoContainer {
     flex-grow: 0.2;

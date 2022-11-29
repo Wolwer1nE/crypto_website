@@ -5,6 +5,7 @@
   "scripts": {
     "start": "parcel index.html"
   },
+  "private": false,
   "author": "Insider",
   "license": "ISC",
   "proxy": "http://localhost:3001",
