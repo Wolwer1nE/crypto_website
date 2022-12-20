@@ -1,6 +1,6 @@
 class CoinCap {
 
-    constructor(baseUrl = "https:/api.coincap.io/v2/assets") {
+    constructor(baseUrl = "https://api.coincap.io/v2/assets") {
         this.baseUrl = baseUrl;
     }
 
