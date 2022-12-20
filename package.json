@@ -9,7 +9,6 @@
   "private": false,
   "author": "Insider",
   "license": "ISC",
-  "proxy": "http://localhost:3001",
   "devDependencies": {
     "@babel/core": "^7.19.1",
     "@parcel/babel-preset-env": "^2.7.0",
@@ -18,8 +17,6 @@
     "parcel": "^2.8.0"
   },
   "dependencies": {
-    "body-parser": "^1.20.1",
-    "gh-pages": "^4.0.0",
     "highcharts": "^10.3.1"
   }
 }
